@@ -16,6 +16,7 @@ public class SocketListener
         socket = this.serverSocket.accept();
         return socket;
     }
+
     public BufferedReader getReader() throws IOException{
         return new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
     }
