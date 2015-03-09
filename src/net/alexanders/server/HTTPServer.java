@@ -38,7 +38,7 @@ public class HTTPServer
                                 try{
                                     BufferedReader reader = socketListener.getReader();
                                     output = socketListener.getSender();
-                                    List<String> lines = new ArrayList<String>();
+                                    List<String> lines = new ArrayList<>();
                                     String line = null;
                                     while((line = reader.readLine()) != null && !line.equals("")){
                                         lines.add(line);
@@ -48,31 +48,37 @@ public class HTTPServer
                                         String content = fileManager.getFile(requestParser.getFilePath());
                                         if(fileManager.getCode() == ResponseCodes.INFO200){
                                             output.println("HTTP/1.1 200 OK");
-                                            output.println("Content-Type: text/html");
+                                            output.println("Content-Type: "+fileManager.getMimeType());
                                             output.println("Server: bot");
                                             output.println("");
                                             output.println(content);
                                             output.flush();
                                             output.close();
+                                            socket.close();
                                         }else{
                                             output.println("HTTP/1.1 " + fileManager.getCode().toString() + " " + fileManager.getCode().getMessage());
-                                            output.println("Content-Type: text/html");
+                                            output.println("Content-Type: "+fileManager.getMimeType());
                                             output.println("Server: bot");
                                             output.println("");
                                             output.println(content);
                                             output.flush();
                                             output.close();
+                                            socket.close();
                                         }
                                     }
                                 }catch(IOException exception){
                                     if(output != null){
                                         output.println("HTTP/1.1 " + ResponseCodes.ERROR500.toString() + " " + ResponseCodes.ERROR500.getMessage());
-                                        output.println("Content-Type: text/html");
+                                        output.println("Content-Type: "+fileManager.getMimeType());
                                         output.println("Server: bot");
                                         output.println("");
                                         output.println(ResponseCodes.ERROR500.getPage());
                                         output.flush();
                                         output.close();
+                                        try{
+                                            socket.close();
+                                        }catch(IOException ignored){
+                                        }
                                     }
                                 }
                             }
