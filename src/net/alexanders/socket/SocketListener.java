@@ -26,6 +26,19 @@ public class SocketListener
     }
 
     public void close() throws IOException{
-        socket.close();
+        try{
+            if(socket != null){
+                socket.close();
+            }
+            if(!serverSocket.isClosed()){
+                serverSocket.close();
+            }
+        }catch(NullPointerException ignored){
+
+        }
+    }
+
+    public boolean isClosed(){
+        return serverSocket.isClosed();
     }
 }
