@@ -9,18 +9,11 @@ public class ConfigParser
 {
     private ArrayList<String> lines = new ArrayList<>();
     private Properties properties = new Properties();
-    public ConfigParser(File file){
-        try{
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            reader.lines().forEach(lines::add);
-            reader.close();
-            this.parse();
-        }catch(IOException ex){
-            if(HTTPServer.logger.verbose){
-                ex.printStackTrace();
-                HTTPServer.logger.log(LogLevel.WARNING, "Couldn't read config file");
-            }
-        }
+    public ConfigParser(File file) throws IOException{
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        reader.lines().forEach(lines::add);
+        reader.close();
+        this.parse();
     }
 
     private void parse(){

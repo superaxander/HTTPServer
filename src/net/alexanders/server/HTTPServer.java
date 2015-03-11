@@ -46,6 +46,7 @@ public class HTTPServer
                                     if(lines.size() > 0){
                                         RequestParser requestParser = new RequestParser(lines.toArray(new String[lines.size()]));
                                         String content = fileManager.getFile(requestParser.getFilePath());
+                                        System.out.println(requestParser.getHTTPVersion());
                                         if(fileManager.getCode() == ResponseCodes.INFO200){
                                             output.println("HTTP/1.1 200 OK");
                                             output.println("Content-Type: "+fileManager.getMimeType());

@@ -13,14 +13,12 @@ public class FileManager
     }
 
     public String getFile(String path){
-        //TODO: Parse %20, &amp, etc.
         File file;
         if(path.equals("/")){
             file = new File(this.basePath+"/index.html");
         }else{
             file = new File(this.basePath + path);
         }
-        System.out.println(file.getAbsolutePath());
         if(file.getName().contains(".")){
             mimetype = MimeTypes.checkMimeType(file.getName()).getMimeType();
         }else{

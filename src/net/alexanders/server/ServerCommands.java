@@ -75,7 +75,7 @@ public enum ServerCommands
 
     private static boolean parseAlias(String str, ServerCommands command){
         for(String alias : command.getAliases()){
-            if(alias.equals(str)) return true;
+            if(alias.equalsIgnoreCase(str)) return true;
         }
         return false;
     }

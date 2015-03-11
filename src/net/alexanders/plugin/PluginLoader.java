@@ -16,23 +16,32 @@ public class PluginLoader
         pluginFolder = new File(pluginFolderPath);
     }
 
-    public void loadPlugins(){
-        File file  = new File(pluginFolder+"/plugin.jar");
+    public void loadPlugin(String pluginName){
+        File cfgFile  = new File(pluginFolder+pluginName+"/plugin.cfg");
+        try{
+            ConfigParser configParser = new ConfigParser(cfgFile);
+            if(configParser.propertyExists("")){
+
+            }
+        }catch(IOException e){
+            HTTPServer.logger.log(LogLevel.WARNING, "Couldn't load config for plugin: "+pluginName);
+            return;
+        }
+        File jarFile = new File(pluginFolder+pluginName+"/"+pluginName+".jar");
         URL url = null;
         try{
-            url = file.toURI().toURL();
+            url = jarFile.toURI().toURL();
         }catch(MalformedURLException e){
             e.printStackTrace();
         }
         URL[] urls = new URL[]{url};
         ClassLoader cl = new URLClassLoader(urls);
 
-        try{
-            Class cls = cl.loadClass("net.httpplugin.plugin");
-            plugins.add((IPlugin)cls.cast(IPlugin.class));
-        }catch(ClassNotFoundException e){
-            e.printStackTrace();
-        }
+        //try{
+
+        //}catch(ClassNotFoundException e){
+        //    e.printStackTrace();
+        //}
     }
 
     public void initialisePlugins(){
