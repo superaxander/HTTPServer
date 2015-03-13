@@ -1,5 +1,7 @@
 package net.alexanders.server;
 
+import net.alexanders.plugin.*;
+
 import java.io.*;
 
 public class FileManager
@@ -8,6 +10,7 @@ public class FileManager
     private String basePath;
     private ResponseCodes code;
     private String mimetype;
+    private String content;
     public FileManager(String basePath){
         this.basePath = basePath;
     }
@@ -24,7 +27,7 @@ public class FileManager
         }else{
             mimetype = MimeTypes.text.getMimeType();
         }
-        String content = error500;
+        content = error500;
         code = ResponseCodes.INFO200;
         if(!file.exists()){
             content = ResponseCodes.ERROR404.getPage();
@@ -44,6 +47,7 @@ public class FileManager
                 mimetype = MimeTypes.html.getMimeType();
             }
         }
+        PluginProvider.loadFileLoadingListeners(this, file, content);
         return content;
     }
 
@@ -53,5 +57,18 @@ public class FileManager
 
     public String getMimeType(){
         return mimetype;
+    }
+
+    public void setCode(ResponseCodes code){
+        this.code = code;
+    }
+
+
+    public void setMimeType(String mimetype){
+        this.mimetype = mimetype;
+    }
+
+    public void setContent(String content){
+        this.content = content;
     }
 }

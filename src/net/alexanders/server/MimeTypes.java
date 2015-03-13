@@ -12,11 +12,13 @@ public enum MimeTypes
     }
 
     public static MimeTypes checkMimeType(String filename){
-        String extension = filename.substring(filename.lastIndexOf('.'));
-        for(MimeTypes type : MimeTypes.values()){
-            for(String extensionExpected : type.extensions){
-                if(extension.equalsIgnoreCase(extensionExpected)){
-                    return type;
+        if(filename.contains(".")){
+            String extension = filename.substring(filename.lastIndexOf('.'));
+            for(MimeTypes type : MimeTypes.values()){
+                for(String extensionExpected : type.extensions){
+                    if(extension.equalsIgnoreCase(extensionExpected)){
+                        return type;
+                    }
                 }
             }
         }

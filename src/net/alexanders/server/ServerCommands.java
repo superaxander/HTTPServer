@@ -1,5 +1,6 @@
 package net.alexanders.server;
 
+import net.alexanders.plugin.*;
 import net.alexanders.util.*;
 
 import java.io.*;
@@ -10,6 +11,7 @@ public enum ServerCommands
         @Override
         public void run(){
             HTTPServer.running = false;
+            HTTPServer.pluginLoader.stopPlugins();
             try{
                 HTTPServer.socketListener.close();
             }catch(IOException e){
